@@ -1,0 +1,46 @@
+test:
+    name: simple-benchmark
+    description: test benchmark
+    workers:
+      type: local
+      number: 2
+    rounds:
+      - label: Test20TPS
+        description: simple benchmark
+        txDuration: 20
+        rateControl:
+          type: fixed-rate
+          opts:
+            tps: 20
+        workload:
+          module: workload-module.js
+          arguments:
+            contractId: simple
+            randomSeed: 5000000
+            userID: Admin@org0.example.com
+
+monitors:
+  resource:
+  - module: docker
+    options:
+      interval: 5
+      containers:
+      - peer1.org0.example.com
+      - peer1.org0.example.com.couchdb
+      - peer1.org1.example.com
+      - peer1.org1.example.com.couchdb
+      - orderer1.org0.example.com
+      - orderer1.org1.example.com
+      - ca1.org1.example.com
+      - ca1.org0.example.com
+      - dev-peer1.org0.example.com-simple_1.0-702839fa68b6e5f47d6fddb9495dfd95eba0a04d383f107828edc074ccea6f0e-c076c29ade02dec781de968f8b96891acf8a898d40677253f04f48f4fcd320ad
+      - dev-peer1.org1.example.com-simple_1.0-702839fa68b6e5f47d6fddb9495dfd95eba0a04d383f107828edc074ccea6f0e-86ba5a0bcb80513d244ebcd90b3f44b68f8ce94e6597501f7312a6b71d4d019c
+      charting:
+        bar:
+          metrics: [Memory(avg), CPU%(avg)]
+        polar:
+          metrics: [all]
+
+observer:
+  type: local
+  interval: 5
