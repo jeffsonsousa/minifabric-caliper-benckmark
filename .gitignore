@@ -1,0 +1,5 @@
+node_modules/*
+vars/*
+package-lock.json
+caliper.log
+report.html
